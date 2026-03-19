@@ -1,0 +1,12 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sora-style F: outlined version with rounded box, thicker horizontal bars -->
+  <rect x="3" y="3" width="26" height="26" rx="5" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- Vertical stem -->
+  <rect x="9" y="8" width="4" height="16" rx="1" fill="currentColor"/>
+  <!-- Top horizontal bar (thicker) -->
+  <rect x="9" y="8" width="14" height="4" rx="1" fill="currentColor"/>
+  <!-- Middle horizontal bar (thicker) -->
+  <rect x="9" y="14" width="10" height="4" rx="1" fill="currentColor"/>
+  <!-- Dot in bottom right corner (gray-400 to match .app) -->
+  <circle cx="23" cy="21" r="2.5" fill="#9ca3af"/>
+</svg>

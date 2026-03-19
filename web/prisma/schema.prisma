@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Recommendation {
+  id        String   @id @default(cuid())
+  userId    String
+  site      Site
+  videoId   String
+  title     String
+  author    String
+  coverUrl  String
+  reason    String
+  source    String
+  url             String
+  importanceScore Int      @default(0)
+  createdAt       DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SiteConnection {
+  id              String   @id @default(cuid())
+  userId          String
+  site            Site
+  connected       Boolean  @default(false)
+  authState       String?
+  username        String?
+  siteUserId      String?
+  // Cached data - persists even when auth expires
+  cachedHistory   String?  @db.Text  // JSON array of watch history items
+  cachedChannels  String?  @db.Text  // JSON array of subscribed channels
+  cacheUpdatedAt  DateTime?
+  needsReauth     Boolean  @default(false)  // Flag when auth expired
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, site])
+}
+
+model User {
+  id                   String           @id @default(cuid())
+  email                String           @unique
+  passwordHash         String?
+  name                 String?
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  stripeCustomerId     String?          @unique
+  subscriptionTier     Tier             @default(PRO)
+  subscriptionEndsAt   DateTime?
+  passwordResetToken   String?          @unique
+  passwordResetExpires DateTime?
+  recommendations      Recommendation[]
+  sessions             Session[]
+  connections          SiteConnection[]
+  persona              UserPersona?
+  preferences          UserPreferences?
+}
+
+model UserPersona {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  summary         String?   @db.VarChar(500)
+  interests       String?   @db.VarChar(500)
+  profession      String?   @db.VarChar(100)
+  expertise       String?   @db.VarChar(200)
+  contentPref     String?   @db.VarChar(300)
+  lastUserInput   String?   @db.Text
+  lastInputDate   DateTime?
+  todayInputCount Int       @default(0)
+  compiledPersona String?   @db.VarChar(1000)
+  lastCompiledAt  DateTime?
+  viewingSignals  String?   @db.Text
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserPreferences {
+  id                       String             @id @default(cuid())
+  userId                   String             @unique
+  recommendationCount      Int                @default(10)
+  includeGeneral           Boolean            @default(true)
+  emailEnabled             Boolean            @default(true)
+  emailTime                String             @default("08:00")
+  emailTimezone            String             @default("Asia/Shanghai")
+  recommendationMode       RecommendationMode @default(AI_MIXED)
+  keywords                 String?
+  lastGeneratedDate        DateTime?
+  todayGenerationCount     Int                @default(0)
+  lastSettingsChangeDate   DateTime?
+  todaySettingsChangeCount Int                @default(0)
+  lastEmailSentAt          DateTime?          // When email was actually sent
+  aiModel                  String?            // e.g. "claude-sonnet-4-6", "gpt-4o-mini"
+  aiApiKey                 String?            // encrypted, stored server-side only
+  followedAccounts         String?            // JSON: { x: [], youtube: [], bilibili: [], wildSearch: [] }
+  user                     User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum RecommendationMode {
+  AI_MIXED
+  PER_PLATFORM
+}
+
+enum Site {
+  BILIBILI
+  YOUTUBE
+  REDDIT
+  X
+}
+
+enum Tier {
+  FREE
+  PRO
+  MAX
+}

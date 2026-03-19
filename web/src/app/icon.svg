@@ -1,0 +1,12 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Filteral F logo with rounded box -->
+  <rect x="3" y="3" width="26" height="26" rx="5" stroke="#1f2937" stroke-width="2" fill="white"/>
+  <!-- Vertical stem -->
+  <rect x="9" y="8" width="4" height="16" rx="1" fill="#1f2937"/>
+  <!-- Top horizontal bar -->
+  <rect x="9" y="8" width="14" height="4" rx="1" fill="#1f2937"/>
+  <!-- Middle horizontal bar -->
+  <rect x="9" y="14" width="10" height="4" rx="1" fill="#1f2937"/>
+  <!-- Dot in bottom right corner -->
+  <circle cx="23" cy="21" r="2.5" fill="#9ca3af"/>
+</svg>

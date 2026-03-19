@@ -1,0 +1,14 @@
+# Filteral.app robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.filteral.app/sitemap.xml
+
+# Block dashboard and API routes from indexing
+Disallow: /dashboard
+Disallow: /api/
+Disallow: /connect/
+Disallow: /settings
+Disallow: /profile

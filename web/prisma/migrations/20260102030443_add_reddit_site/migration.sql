@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "Site" ADD VALUE 'REDDIT';

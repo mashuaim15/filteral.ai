@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Local env files with secrets
+.env
+.env.local
+.env*.local
+.env.production
+
+# Credentials in env/ subfolders (only examples are committed)
+**/env/.env
+**/env/.env.*
+!**/env/.env.example
+!**/env/.env.*.example
+# Production secrets — committed to private repo only, stripped by .publicignore
+!web/env/.env.production
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+logs.txt
+
+# Docker volumes
+postgres_data/
+postgres_dev_data/
+
+# Auth state (sensitive cookies/tokens)
+auth_state.json
+
+# Tech doc with credentials
+DEPLOYMENT.md
+
+# Local-only docs
+docs/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Python
+*.egg-info/
+.eggs/
+.pytest_cache/
